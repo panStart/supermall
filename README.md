@@ -1,29 +1,51 @@
 # supermall
+# vue-cli安装
+npm i webpack -g
+npm install @vue/cli -g
+# 创建项目
+vue create ~
+# git管理
+1.粘贴复制上传。
+git clone ~
+复制到托管目录
+git add .
+git commit -m ''
+git push
+2.空文件夹直接上传。
 
-## Project setup
-```
-npm install
-```
+## 划分目录结构
+# assets-资源
+css,img文件夹
+# commponents-公共组件
+common--别的项目也可以用的公共组件,content-私有的公共组件
+# views-大视图组件
+category,home
+# network--网络数据封装
+# router
+# store
+# common
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+# css文件的引入
+引入两个css文件
+优化浏览器 引入优化css
 
-### Compiles and minifies for production
-```
-npm run build
-```
+# 脚手架3里的vue.config
+configureWebpack:{
+        resolve:{
+           alias: {
+               'assets':'@/assets',
+               'common':'@/common',
+               'components':'@/components',
+               'network':'@/network',
+               'views':'@/views' 
+           }
+        }
+    }别名配置
+# 脚手架的.editorconfig调整代码规范
 
-### Run your tests
-```
-npm run test
-```
+# 添加tabbar模块
+# 添加路由
+# 导航模块封装（利用插槽）
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# 请求数据network文件夹封装request.js
+npm i axios --save
