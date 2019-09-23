@@ -49,3 +49,9 @@ configureWebpack:{
 
 # 请求数据network文件夹封装request.js
 npm i axios --save
+
+# 数据获取
+注意分类文件home.vue面对home.js
+# 轮播图封装
+# recommend.vue封装
+
