@@ -55,4 +55,6 @@ npm i axios --save
 注意分类文件home.vue面对home.js
 # 轮播图封装
 # recommend.vue封装
-2019/9/22 19:31
+
+# home页数据获取
+2019/9/23 晚
