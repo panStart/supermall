@@ -2,7 +2,7 @@ import axios from "axios";
 //简版promise
 
 export function request(config){
-    console.log(config);
+    // console.log(config);
         const instance = axios.create({
             baseURL : 'http://47.106.248.143/app',
             timeout : 5000,

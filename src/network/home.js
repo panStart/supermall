@@ -8,7 +8,7 @@ let config = {
 }
 
 export function getHomeMultidata(){
-    return request({
+    return request(
         config
-    })
+    )
 }
