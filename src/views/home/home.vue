@@ -4,7 +4,27 @@
       <home-swiper :lunbotuList="lunbotuList" />
       <recommend-view :recommends="recommends"/>
       <feature-view/>
-      <tab-control :titles="['流行','新款','精选']"/>
+      <tab-control class="tab-control" :titles="['流行','新款','精选']"/>
+      <li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li>
+      <li>2</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li>
+      <li>3</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li>
+      <li>4</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li>
+      <li>5</li>
+      <li>6</li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
   </div>
 </template>
 <script>
@@ -15,7 +35,9 @@ import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from './childComps/RecommendView'
 import FeatureView from './childComps/Feature'
 
-import {getHomeMultidata} from 'network/home'
+import {getHomeMultidata,
+        getHomeGoods
+} from 'network/home'
 
 export default {
   name:'home',
@@ -27,7 +49,12 @@ export default {
         {title:"数电实验"},
         {title:"数电实验"},
         {title:"数电实验"}
-        ]
+        ],
+      goods:{
+        "数电实验":{list:[]},
+        "EDA实验":{list:[]},
+        "信号分析":{list:[]}
+      }  
     };
   },
   components: {
@@ -40,14 +67,30 @@ export default {
   },
   created () {
     //1.请求多个数据
-    getHomeMultidata().then(res => {
-      // console.log(res);
-      var arr = JSON.parse(res);
-      this.lunbotuList = arr;
-      // console.log(this.lunbotuList)
-    })
+    this.getHomeMultidata()
+    //2.请求商品信息
+    this.getHomeGoods("数电实验")
+    this.getHomeGoods("EDA实验")
+    this.getHomeGoods("信号分析")
+
   },
-  methods: {}
+  methods: {
+    getHomeMultidata(){
+      getHomeMultidata().then(res => {
+        // console.log(res);
+        var arr = JSON.parse(res);
+        this.lunbotuList = arr;
+        // console.log(this.lunbotuList)
+      })
+    },
+    getHomeGoods(type){
+      getHomeGoods(type).then(res =>{
+      this.goods[type].list = JSON.parse(res);
+      console.log(this.goods[type].list);
+      
+    })
+    }
+  }
 }
 
 </script>
@@ -56,7 +99,8 @@ export default {
 <style scoped>
 #home {
    padding-bottom: 50px;
-  padding-top: 44px
+   padding-top: 44px;
+
 }
 .home-nav{
   background-color: var(--color-tint);
@@ -68,5 +112,10 @@ export default {
   top: 0; 
   z-index: 9;
  
+}
+
+.tab-control {
+  position: sticky;
+  top: 44px
 }
 </style>
