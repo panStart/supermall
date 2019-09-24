@@ -60,3 +60,25 @@ npm i axios --save
 # 商品数据填补页面
 # 滑动测试
 npm install better-scroll --save
+
+# 滑动封装
+第一种控制内容区域方法：
+.content
+height: calc(100% - 93px);
+#home
+ /* vh属性--可视化界面大小 */
+height: 100vh;
+
+第二种相对定位控制
+#home
+height: 100vh;
+position: relative;
+.content
+  position: absolute;
+  overflow: hidden;
+  top: 44px;
+  bottom: 49px;
+  left: 0;
+  right: 0
+
+

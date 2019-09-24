@@ -1,40 +1,22 @@
 <template>
   <div id="home">
       <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
-      <home-swiper :lunbotuList="lunbotuList" />
-      <recommend-view :recommends="recommends"/>
-      <feature-view/>
-      <tab-control class="tab-control" :titles="['流行','新款','精选']" 
-      @tabClick="tabClick"/>
-      <goods-list :goods="showGoods"/>
-
-
-      <li>1</li><li>1</li><li>1</li><li> 1</li><li>1</li><li>1</li><li>1</li>
-      <li>2</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li>
-      <li>3</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li>
-      <li>4</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li>
-      <li>5</li>
-      <li>6</li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
+      <scroll class="content">
+        <home-swiper :lunbotuList="lunbotuList" />
+        <recommend-view :recommends="recommends"/>
+        <feature-view/>
+        <tab-control class="tab-control" :titles="['流行','新款','精选']" 
+        @tabClick="tabClick"/>
+        <goods-list :goods="showGoods"/>
+      </scroll>
   </div>
 </template>
 <script>
 import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
+import Scroll from 'components/common/scroll/Scroll'
+
 
 import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from './childComps/RecommendView'
@@ -72,6 +54,7 @@ export default {
     NavBar,
     TabControl,
     GoodsList,
+    Scroll,
 
     HomeSwiper,
     RecommendView,
@@ -133,9 +116,11 @@ export default {
 
 <style scoped>
 #home {
-   padding-bottom: 50px;
+   /* padding-bottom: 50px; */
    padding-top: 44px;
-
+   /* vh属性--可视化界面大小 */
+   height: 100vh;
+   position: relative;
 }
 .home-nav{
   background-color: var(--color-tint);
@@ -154,8 +139,18 @@ export default {
   top: 44px;
   z-index: 9;
 }
-
-li {
-  list-style: none;
+/* .content {
+  height: calc(100% - 93px);
+  overflow: hidden;
+  margin-top: 44px;
+} */
+.content {
+  position: absolute;
+  overflow: hidden;
+  top: 44px;
+  bottom: 49px;
+  left: 0;
+  right: 0
 }
+
 </style>
