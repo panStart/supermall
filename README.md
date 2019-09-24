@@ -55,6 +55,8 @@ npm i axios --save
 注意分类文件home.vue面对home.js
 # 轮播图封装
 # recommend.vue封装
-
 # home页数据获取
 2019/9/23 晚
+# 商品数据填补页面
+# 滑动测试
+npm install better-scroll --save

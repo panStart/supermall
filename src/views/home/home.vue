@@ -6,7 +6,7 @@
       <feature-view/>
       <tab-control class="tab-control" :titles="['流行','新款','精选']" 
       @tabClick="tabClick"/>
-      <goods-list :goods="goods[currentType].list"/>
+      <goods-list :goods="showGoods"/>
 
 
       <li>1</li><li>1</li><li>1</li><li> 1</li><li>1</li><li>1</li><li>1</li>
@@ -62,6 +62,11 @@ export default {
       },
       currentType:"数电实验"
     };
+  },
+  computed: {
+    showGoods(){
+      return this.goods[this.currentType].list
+    }
   },
   components: {
     NavBar,
