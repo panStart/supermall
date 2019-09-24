@@ -4,8 +4,12 @@
       <home-swiper :lunbotuList="lunbotuList" />
       <recommend-view :recommends="recommends"/>
       <feature-view/>
-      <tab-control class="tab-control" :titles="['流行','新款','精选']"/>
-      <li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li>
+      <tab-control class="tab-control" :titles="['流行','新款','精选']" 
+      @tabClick="tabClick"/>
+      <goods-list :goods="goods[currentType].list"/>
+
+
+      <li>1</li><li>1</li><li>1</li><li> 1</li><li>1</li><li>1</li><li>1</li>
       <li>2</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li>
       <li>3</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li>
       <li>4</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li>
@@ -30,6 +34,7 @@
 <script>
 import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
+import GoodsList from 'components/content/goods/GoodsList'
 
 import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from './childComps/RecommendView'
@@ -54,12 +59,14 @@ export default {
         "数电实验":{list:[]},
         "EDA实验":{list:[]},
         "信号分析":{list:[]}
-      }  
+      },
+      currentType:"数电实验"
     };
   },
   components: {
     NavBar,
-    TabControl ,
+    TabControl,
+    GoodsList,
 
     HomeSwiper,
     RecommendView,
@@ -75,6 +82,29 @@ export default {
 
   },
   methods: {
+     /**
+     * 事件监听
+     * 
+     */
+    tabClick(index){
+      switch(index){
+        case 0:
+          this.currentType = "数电实验"
+          break
+        case 1:
+          this.currentType = "EDA实验"
+          break
+        case 2:
+          this.currentType = "信号分析"
+          break    
+      }
+      
+    },
+
+    /**
+     * 网络请求
+     * 
+     */
     getHomeMultidata(){
       getHomeMultidata().then(res => {
         // console.log(res);
@@ -116,6 +146,11 @@ export default {
 
 .tab-control {
   position: sticky;
-  top: 44px
+  top: 44px;
+  z-index: 9;
+}
+
+li {
+  list-style: none;
 }
 </style>
