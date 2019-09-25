@@ -81,4 +81,16 @@ position: relative;
   left: 0;
   right: 0
 
+# 滚动封装完成后 控制栏不动 封装向上按钮
+监听组件的点击：@click.native
+this.$refs.scroll.scroll.scrollTo(0,0,500)
+利用home里的refs调用scroll组件
+组件就是一个对象，可以直接调用scroll里的属性
+scrollTo(0,0,500)//x,y,time
 
+# 处理了滚动卡顿的问题
+利用$bus--事件总线
+
+# 处理请求过多  例如搜索栏里的文字搜索
+refresh频繁刷新的问题：
+# 补习：回调函数和apply

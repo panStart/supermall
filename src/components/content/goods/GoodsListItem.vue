@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item">
-      <img :src="'http://47.106.248.143/app/img/'+goodsItem.img_src" alt="">
+      <img :src="'http://47.106.248.143/app/img/'+goodsItem.img_src" alt="" @load="imageLoad">
       <div class="goods-info">
           <p>{{goodsItem.title}}</p>
           <span class="price">价格</span>
@@ -24,7 +24,11 @@ export default {
       }
   },
   components: {},
-  methods: {}
+  methods: {
+    imageLoad(){
+       this.$bus.$emit('itemImageLoad')
+    }
+  }
 }
 </script>
 <style scoped>

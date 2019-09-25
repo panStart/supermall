@@ -1,7 +1,12 @@
 <template>
   <div id="home">
       <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
-      <scroll class="content">
+      <scroll class="content" ref="scroll" 
+      :probe-type="3" 
+      :pull-up-load="true"
+      @scroll="contentScroll"
+     
+      >
         <home-swiper :lunbotuList="lunbotuList" />
         <recommend-view :recommends="recommends"/>
         <feature-view/>
@@ -9,6 +14,7 @@
         @tabClick="tabClick"/>
         <goods-list :goods="showGoods"/>
       </scroll>
+      <back-top @click.native="backTop" v-show="isShowBackTop"></back-top>
   </div>
 </template>
 <script>
@@ -16,7 +22,7 @@ import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
 import Scroll from 'components/common/scroll/Scroll'
-
+import BackTop from 'components/content/backTop/BackTop'
 
 import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from './childComps/RecommendView'
@@ -42,7 +48,8 @@ export default {
         "EDA实验":{list:[]},
         "信号分析":{list:[]}
       },
-      currentType:"数电实验"
+      currentType:"数电实验",
+      isShowBackTop:false
     };
   },
   computed: {
@@ -55,6 +62,7 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
+    BackTop,
 
     HomeSwiper,
     RecommendView,
@@ -69,11 +77,27 @@ export default {
     this.getHomeGoods("信号分析")
 
   },
+  mounted () {
+      const refresh = this.debounce(this.$refs.scroll.refresh,500)
+      this.$bus.$on('itemImageLoad',() => {
+          refresh()
+          // console.log("123")
+      })
+  },
   methods: {
      /**
      * 事件监听
      * 
      */
+    debounce(func,delay){
+      let timer = null
+      return function (...args) {
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(() => {
+          func.apply(this, args)
+        })
+      } 
+    },
     tabClick(index){
       switch(index){
         case 0:
@@ -87,8 +111,20 @@ export default {
           break    
       }
       
+    },    
+    backTop(){  
+      // console.log(this.$refs.scroll.message);
+      this.$refs.scroll.scrollTo(0,0)
     },
-
+    contentScroll(position){
+      // console.log(position);
+      this.isShowBackTop = (position.y) < -250 ;
+    },
+    // loadMore(){
+    //  this.getHomeGoods(this.currentType)
+    // //滑动不好下滑，图片问题
+    // // this.$refs.scroll.scrollRefresh()
+    // },
     /**
      * 网络请求
      * 
@@ -103,9 +139,10 @@ export default {
     },
     getHomeGoods(type){
       getHomeGoods(type).then(res =>{
-      this.goods[type].list = JSON.parse(res);
-      console.log(this.goods[type].list);
+        // push数组的方法--es6
+      this.goods[type].list.push(...JSON.parse(res));  
       
+      // this.$refs.scroll.finishPullUp()
     })
     }
   }
