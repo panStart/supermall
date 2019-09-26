@@ -1,6 +1,9 @@
 <template>
   <div class="goods-item">
-      <img :src="'http://47.106.248.143/app/img/'+goodsItem.img_src" alt="" @load="imageLoad">
+      <img :src="'http://47.106.248.143/app/img/'+goodsItem.img_src" alt="" 
+      @load="imageLoad"
+      @click="itemClick"
+      >
       <div class="goods-info">
           <p>{{goodsItem.title}}</p>
           <span class="price">价格</span>
@@ -27,6 +30,9 @@ export default {
   methods: {
     imageLoad(){
        this.$bus.$emit('itemImageLoad')
+    },
+    itemClick(){
+      this.$router.push('/detail/'+this.goodsItem.flag)
     }
   }
 }

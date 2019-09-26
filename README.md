@@ -94,3 +94,40 @@ scrollTo(0,0,500)//x,y,time
 # 处理请求过多  例如搜索栏里的文字搜索
 refresh频繁刷新的问题：
 # 补习：回调函数和apply
+
+## 上拉加载
+## 控制栏不吸顶
+.tab-control {
+  position: sticky;
+  top: 44px;
+  z-index: 9;
+}失效
+
+使用this.$refs.tabControl.$el.offsetTop获取位置
+问题：图片没加载完不能正确获取位置
+监听轮播图图片的加载完成后发出事件，在home里监听
+优化：为了部多次监听图片的更新，使用isLoad进行状态记录
+注意此次优化与防抖的区别
+
+
+#### 9.2. 监听滚动, 动态的改变tabControl的样式
+
+* 问题:动态的改变tabControl的样式时, 会出现两个问题:
+  * 问题一: 下面的商品内容, 会突然上移
+  * 问题二: tabControl虽然设置了fixed, 但是也随着Better-Scroll一起滚出去了.
+* 其他方案来解决停留问题.
+  * 在最上面, 多复制了一份PlaceHolderTabControl组件对象, 利用它来实现停留效果.
+  * 当用户滚动到一定位置时, PlaceHolderTabControl显示出来.
+  * 当用户滚动没有达到一定位置时, PlaceHolderTabControl隐藏起来.
+
+### 十. 让Home保持原来的状态
+
+#### 10.1. 让Home不要随意销毁掉
+
+* keep-alive
+
+#### 10.2. 让Home中的内容保持原来的位置
+
+* 离开时, 保存一个位置信息saveY.
+* 进来时, 将位置设置为原来保存的位置saveY信息即可.
+  * 注意: 最好回来时, 进行一次refresh()

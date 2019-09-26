@@ -1,17 +1,29 @@
 <template>
   <div id="home">
       <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
+
+      <tab-control :titles="['流行','新款','精选']" 
+        @tabClick="tabClick"
+        ref="tabControl1"
+       class="tab-control"
+       v-show="this.isTabFixed"
+        />
+
       <scroll class="content" ref="scroll" 
       :probe-type="3" 
-      :pull-up-load="true"
       @scroll="contentScroll"
-     
+      :pull-up-load="true"
+      @pullingUp="loadMore"
+      
       >
-        <home-swiper :lunbotuList="lunbotuList" />
+        <home-swiper :lunbotuList="lunbotuList" @swiperImageLoad="swiperImageLoad" />
         <recommend-view :recommends="recommends"/>
         <feature-view/>
-        <tab-control class="tab-control" :titles="['流行','新款','精选']" 
-        @tabClick="tabClick"/>
+        <tab-control :titles="['流行','新款','精选']" 
+        @tabClick="tabClick"
+        ref="tabControl2"
+       
+        />
         <goods-list :goods="showGoods"/>
       </scroll>
       <back-top @click.native="backTop" v-show="isShowBackTop"></back-top>
@@ -31,7 +43,7 @@ import FeatureView from './childComps/Feature'
 import {getHomeMultidata,
         getHomeGoods
 } from 'network/home'
-
+import {debounce} from 'common/utils.js'
 export default {
   name:'home',
   data () {
@@ -49,7 +61,10 @@ export default {
         "信号分析":{list:[]}
       },
       currentType:"数电实验",
-      isShowBackTop:false
+      isShowBackTop:false,
+      tabOffsetTop:0,//控制栏的位置
+      isTabFixed:false,//判断模拟控制栏的显示
+      saveY:0,//离开时保存的位置
     };
   },
   computed: {
@@ -78,26 +93,32 @@ export default {
 
   },
   mounted () {
-      const refresh = this.debounce(this.$refs.scroll.refresh,500)
+    //1.图片加载
+      const refresh = debounce(this.$refs.scroll.refresh,500)
       this.$bus.$on('itemImageLoad',() => {
           refresh()
           // console.log("123")
       })
+    
+    
+  },
+  destroyed () {
+    console.log('home destroyed');
+    
+  },//切换路由时销毁
+  //记录路由的活跃状态
+  activated () {
+    this.$refs.scroll.scrollTo(0,this.saveY,0)
+    this.$refs.scroll.refresh()
+  },
+  deactivated () {
+    this.saveY = this.$refs.scroll.getScrollY()
   },
   methods: {
      /**
      * 事件监听
      * 
      */
-    debounce(func,delay){
-      let timer = null
-      return function (...args) {
-        if (timer) clearTimeout(timer)
-        timer = setTimeout(() => {
-          func.apply(this, args)
-        })
-      } 
-    },
     tabClick(index){
       switch(index){
         case 0:
@@ -110,7 +131,8 @@ export default {
           this.currentType = "信号分析"
           break    
       }
-      
+      this.$refs.tabControl1.currentIndex = index
+      this.$refs.tabControl2.currentIndex = index
     },    
     backTop(){  
       // console.log(this.$refs.scroll.message);
@@ -118,13 +140,20 @@ export default {
     },
     contentScroll(position){
       // console.log(position);
-      this.isShowBackTop = (position.y) < -250 ;
+      // 1.判断BackTop是否显示
+      this.isShowBackTop = (-position.y) > 250 ;
+      //2.局等tabControl是否吸顶（position：fixed）
+      this.isTabFixed = (-position.y) > this.tabOffsetTop ;
     },
-    // loadMore(){
-    //  this.getHomeGoods(this.currentType)
-    // //滑动不好下滑，图片问题
-    // // this.$refs.scroll.scrollRefresh()
-    // },
+    loadMore(){
+      this.getHomeGoods(this.currentType)
+    //滑动不好下滑，图片问题
+    // this.$refs.scroll.scrollRefresh()
+    },
+    swiperImageLoad(){
+      //2.获取tab-control的offsetTop
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+    },
     /**
      * 网络请求
      * 
@@ -141,10 +170,10 @@ export default {
       getHomeGoods(type).then(res =>{
         // push数组的方法--es6
       this.goods[type].list.push(...JSON.parse(res));  
-      
-      // this.$refs.scroll.finishPullUp()
+      // 获取完数据重新启动上拉加载
+      this.$refs.scroll.finishPullUp()
     })
-    }
+    } 
   }
 }
 
@@ -154,7 +183,6 @@ export default {
 <style scoped>
 #home {
    /* padding-bottom: 50px; */
-   padding-top: 44px;
    /* vh属性--可视化界面大小 */
    height: 100vh;
    position: relative;
@@ -163,18 +191,12 @@ export default {
   background-color: var(--color-tint);
   color:#fff;
 
-  position: fixed;
+  /* position: fixed;
   left: 0;
   right: 0; 
   top: 0; 
-  z-index: 9;
+  z-index: 9; */
  
-}
-
-.tab-control {
-  position: sticky;
-  top: 44px;
-  z-index: 9;
 }
 /* .content {
   height: calc(100% - 93px);
@@ -189,5 +211,14 @@ export default {
   left: 0;
   right: 0
 }
-
+.tab-control{
+  position: relative;
+  z-index: 9
+}
+/* .fixed {
+  padding: fixed;
+  left: 0;
+  right: 0;
+  top: 44px;
+} */
 </style>

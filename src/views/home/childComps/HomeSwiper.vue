@@ -2,7 +2,7 @@
   <div>
       <swiper>
         <swiper-item v-for="item in lunbotuList">
-           <img :src="'http://47.106.248.143/app/img/'+item.img_src" alt="">
+           <img :src="'http://47.106.248.143/app/img/'+item.img_src" alt="" @load="imageLoad">
         </swiper-item>
       </swiper>
   </div>
@@ -22,13 +22,24 @@ export default {
   },
   data () {
     return {
+      isLoad:false
     };
   },
   components: {
     Swiper,
     SwiperItem
   },
-  methods: {}
+  methods: {
+    imageLoad(){
+      if(!this.isLoad){
+          this.$emit('swiperImageLoad')
+          this.isLoad = true
+      }
+      
+      
+    }
+
+  }
 }
 </script>
 
