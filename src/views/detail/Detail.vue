@@ -7,19 +7,20 @@
 <script>
 import DetailSwiper from './childComps/DetailSwiper'
 import DetailNavBar from './childComps/DetailNavBar'
-import {getDetail} from 'network/detail'
+import {getDetail,getDetailGoods,Goods} from 'network/detail'
 export default {
   name:'',
   data () {
     return {
       flag:null,
-      detailList:null
+      detailList:null,
+      goods:null
     };
   },
   created () {
-    // this.flag = this.$route.params.flag  
+    this.flag = this.$route.params.flag  
     this.getDetailSwiperdata()
-    
+    this.getDetailGoods(this.flag)
   },
   components: {
     DetailNavBar,
@@ -34,6 +35,14 @@ export default {
         //  console.log(this.detailList)
       })
     },
+    getDetailGoods(type){
+      getDetailGoods(type).then(res => {
+        var arr = JSON.parse(res);
+        this.goods = new Goods(arr) 
+        // console.log(this.goods);
+        
+      })
+    }
   }
 }
 </script>
