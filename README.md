@@ -91,7 +91,7 @@ scrollTo(0,0,500)//x,y,time
 # 处理了滚动卡顿的问题
 利用$bus--事件总线
 
-# 处理请求过多  例如搜索栏里的文字搜索
+# 处理请求过多防抖处理  例如搜索栏里的文字搜索
 refresh频繁刷新的问题：
 # 补习：回调函数和apply
 
@@ -135,3 +135,28 @@ refresh频繁刷新的问题：
 ### 十一. 详情页开发
 #### 11.1 通过ID值获取不同的数据
 * keep-alive exclude="Detail"//name里的内容
+#### 11.2 数据整合
+* 处理后台很多数据的时候，需要整合一个对象来整合数据
+  export class Goods {
+      constructor(list){
+          this.title = list[0].title
+      }
+  }
+* 调用：this.goods = new Goods(res)
+* 此处因为数据少的缘故，制作简单的数据整合。
+#### 11.3 v-for="index in goods.services.length-1" :key="index"的运用
+* <span class="info-service-item" v-for="index in goods.services.length-1"          :key="index">
+        <img :src="goods.services[index-1].icon">
+        <span>{{goods.services[index-1].name}}</span>
+  </span>
+* 为什么要用key属性
+使用key属性性能更高 虚拟dom-->patch-->浏览器  通过diff算法检测出不一样的元素。
+
+#### 11.4 vue--混入
+home页和详情页的使用的item图片刷新是同一个，离开home页面时应该取消一个。
+
+#### 11.5 两个bug 首页tabControl不一致 详情页滚动的bug
+
+#### 11.6 标题和内容的联动效果
+1.点击滚动到相应的位置 
+
