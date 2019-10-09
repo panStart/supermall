@@ -88,6 +88,8 @@
        * 校验正确的位置
        */
       checkPosition: function () {
+        // console.log(this.slideCount);
+        
         window.setTimeout(() => {
           // 1.校验正确的位置
           this.swiperStyle.transition = '0ms';

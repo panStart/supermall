@@ -7,7 +7,7 @@
         ref="tabControl1"
        class="tab-control"
        v-show="this.isTabFixed"
-        />
+        />  
 
       <scroll class="content" ref="scroll" 
       :probe-type="3" 
@@ -43,9 +43,12 @@ import FeatureView from './childComps/Feature'
 import {getHomeMultidata,
         getHomeGoods
 } from 'network/home'
-import {debounce} from 'common/utils.js'
+// import {debounce} from 'common/utils.js'
+import {itemListenerMixin} from "common/mixin"
+
 export default {
   name:'home',
+  mixins:[itemListenerMixin],
   data () {
     return {
       lunbotuList:[],
@@ -94,16 +97,10 @@ export default {
   },
   mounted () {
     //1.图片加载
-      const refresh = debounce(this.$refs.scroll.refresh,500)
-      this.$bus.$on('itemImageLoad',() => {
-          refresh()
-          // console.log("123")
-      })
-    
     
   },
   destroyed () {
-    console.log('home destroyed');
+    // console.log('home destroyed');
     
   },//切换路由时销毁
   //记录路由的活跃状态
@@ -112,7 +109,10 @@ export default {
     this.$refs.scroll.refresh()
   },
   deactivated () {
+    //1.保存滑动距离
     this.saveY = this.$refs.scroll.getScrollY()
+    //2.离开home页面取消bus监听事件
+    this.$bus.$off('itemImageLoad',this.itemImgListener)
   },
   methods: {
      /**
@@ -163,7 +163,7 @@ export default {
         // console.log(res);
         var arr = JSON.parse(res);
         this.lunbotuList = arr;
-        // console.log(this.lunbotuList)
+        console.log(this.lunbotuList)
       })
     },
     getHomeGoods(type){

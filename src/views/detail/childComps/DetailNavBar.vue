@@ -29,8 +29,12 @@ export default {
   },
   methods: {
       titleClick(index){
-          this.currentIndex = index
-      },
+        //点击变色
+          this.currentIndex = index;
+        //点击滚动到相应位置
+          this.$emit('titleClick',index)
+
+    },
       backClick(){
         //   this.$router.go(-1)
         this.$router.back()
