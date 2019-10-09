@@ -152,11 +152,29 @@ refresh频繁刷新的问题：
 * 为什么要用key属性
 使用key属性性能更高 虚拟dom-->patch-->浏览器  通过diff算法检测出不一样的元素。
 
-#### 11.4 vue--混入
+### 十二. vue--混入
 home页和详情页的使用的item图片刷新是同一个，离开home页面时应该取消一个。
 
-#### 11.5 两个bug 首页tabControl不一致 详情页滚动的bug
+### 十三.  两个bug 首页tabControl不一致 详情页滚动的bug
 
-#### 11.6 标题和内容的联动效果
-1.点击滚动到相应的位置 
-
+### 十四.  标题和内容的联动效果
+# 14.1 点击标题，滚动到相应的位置
+* 在detail中监听标题的点击，获取index
+* 滚动到相应的主题：
+   * 获取所有主题的offsetTop
+   * 问题：在哪里获取到正确的offsetTop
+   * 1.created肯定不行，没有获取到元素
+   * 2.mounted不行，数据还没有获取到
+   * 3.获取到的数据回调也不行，DOM还没有渲染
+   * 4.$nextTick不行，图片的高度问题
+   * 5.在图片加载完后，获取高度
+# 14.2 内容渲染，显示正确的标题
+if(this.currentIndex !== i && 
+((i < length - 1 && positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1]) 
+|| (i === length - 1 && positionY >= this.themeTopYs[i])))   
+* 条件一：防止赋值重复
+* 条件二：区间判断
+* 简化：添加一个最大值 
+ if(this.currentIndex !== i && 
+        (positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1]) 
+        )

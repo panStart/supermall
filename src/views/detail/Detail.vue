@@ -1,14 +1,15 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav" @titleClick="titleClick"/>
+    <detail-nav-bar class="detail-nav" @titleClick="titleClick" ref="nav"/>
     <scroll class="content" ref="scroll"
       :probe-type="3" 
-     
+      @scroll="contentScroll"
     >
         <detail-swiper :detailList="detailList" />
         <detail-base-info :goods="goods"/>
         <detail-shop-info />
-        <detail-goods-info :detailInfo="detailInfo"  @imageLoad="imageLoad"/>
+        <!-- <detail-goods-info :detailInfo="detailInfo"  @imageLoad="imageLoad"/> -->
+        <detail-goods-info :detailInfo="detailInfo"  />
         <detail-param-info ref="params"/>
         <detail-comment-info ref="comment"/>
         <goods-list :goods="recommends" ref="recommends"/>
@@ -124,7 +125,8 @@ export default {
       goods:{},
       detailInfo:[],
       recommends:[],
-      themeTopYs:[]
+      themeTopYs:[],
+      currentIndex:0
     };
   },
   created () {
@@ -155,6 +157,7 @@ export default {
       this.themeTopYs.push(this.$refs.params.$el.offsetTop);
       this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
       this.themeTopYs.push(this.$refs.recommends.$el.offsetTop);
+      this.themeTopYs.push(Number.MAX_VALUE);
       console.log(this.themeTopYs);
   },
   destroyed() {
@@ -190,19 +193,44 @@ export default {
         
       })
     },
-    imageLoad(){
-      // this.$refs.scroll.refresh();
-      // this.themeTopYs = []
-      // this.themeTopYs.push(0);
-      // this.themeTopYs.push(this.$refs.params.$el.offsetTop);
-      // this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
-      // this.themeTopYs.push(this.$refs.recommends.$el.offsetTop);
-      // console.log(this.themeTopYs);
-    }, 
+    // imageLoad(){
+    //   // this.$refs.scroll.refresh();
+    //   // this.themeTopYs = []
+    //   // this.themeTopYs.push(0);
+    //   // this.themeTopYs.push(this.$refs.params.$el.offsetTop);
+    //   // this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
+    //   // this.themeTopYs.push(this.$refs.recommends.$el.offsetTop);
+    //   // console.log(this.themeTopYs);
+    // }, 
+    contentScroll(position){
+      const positionY = -position.y
+      //问题 下面这种方式的i为字符串
+      // for(let i in this.themeTopYs){
+      //   console.log(typeof(i));//字符串  
+      // }
+      const length = this.themeTopYs.length
+      // for(let i = 0; i < length; i++){
+      //   if(this.currentIndex !== i && ((i < length - 1 && positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1]) 
+      //   || (i === length - 1 && positionY >= this.themeTopYs[i]))){
+      //     // console.log(i);
+      //     this.currentIndex = i
+      //     this.$refs.nav.currentIndex = this.currentIndex
+      //   }
+      // }
+      for(let i = 0; i < length-1; i++){
+        if(this.currentIndex !== i && 
+        (positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1]) 
+        ){
+          // console.log(i);
+          this.currentIndex = i
+          this.$refs.nav.currentIndex = this.currentIndex
+        }
+      }
+    },
    
     //点击到相应位置
     titleClick(index){
-      console.log(index);
+      // console.log(index);
       //scroll运动的值为负值
       this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 100)
       
