@@ -95,7 +95,10 @@
           <li>79</li>
           <li>80</li>
         </ul>
+        
     </scroll>
+     <back-top @click.native="backTop" v-show="isShowBackTop"></back-top>
+    <detail-bottom-bar/>
   </div>
 </template>
 <script>
@@ -106,6 +109,8 @@ import DetailShopInfo from './childComps/DetailShopInfo'
 import DetailCommentInfo from './childComps/DetailCommentInfo'
 import DetailGoodsInfo from './childComps/DetailGoodsInfo'
 import DetailParamInfo from './childComps/DetailParamInfo'
+import DetailBottomBar from './childComps/DetailBottomBar'
+
 
 
 import Scroll from 'components/common/scroll/Scroll'
@@ -113,11 +118,12 @@ import Scroll from 'components/common/scroll/Scroll'
 import GoodsList from 'components/content/goods/GoodsList'
 
 
+
 import {getDetail,getDetailGoods,Goods} from 'network/detail'
-import {itemListenerMixin} from "common/mixin"
+import {itemListenerMixin,backTopMIxin} from "common/mixin"
 export default {
   name:'Detail',
-  mixins:[itemListenerMixin],
+  mixins:[itemListenerMixin,backTopMIxin],
   data () {
     return {
       flag:null,
@@ -126,7 +132,8 @@ export default {
       detailInfo:[],
       recommends:[],
       themeTopYs:[],
-      currentIndex:0
+      currentIndex:0,
+      
     };
   },
   created () {
@@ -172,6 +179,7 @@ export default {
     DetailGoodsInfo,
     DetailParamInfo,
     GoodsList,
+    DetailBottomBar,
     Scroll,
   },
   methods: {
@@ -226,8 +234,10 @@ export default {
           this.$refs.nav.currentIndex = this.currentIndex
         }
       }
+
+      //显示是否回顶部
+      this.listenSHopBackTop(position)
     },
-   
     //点击到相应位置
     titleClick(index){
       // console.log(index);
@@ -262,7 +272,7 @@ export default {
   position: absolute;
   overflow: hidden;
   top: 44px;
-  bottom: 0;
+  bottom: 49px;
   left: 0;
   right: 0
 } 

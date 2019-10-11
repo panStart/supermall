@@ -178,3 +178,5 @@ if(this.currentIndex !== i &&
  if(this.currentIndex !== i && 
         (positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1]) 
         )
+# 14.3 详情页的backTop
+* 组件的点击事件要添加@click.native
