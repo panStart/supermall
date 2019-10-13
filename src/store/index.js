@@ -1,30 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { stat } from 'fs'
 
+import mutations from './mutations'
+import actions from './actions'
+import getters from './getters'
 Vue.use(Vuex)
 
+const state = {
+    //用一个变量存储
+    cartList: []
+}
 const store = new Vuex.Store({
-    state: {
-        //用一个变量存储
-        cartList: []
-    },
-    mutations: {
-        addCart(state, payload) {
-            let flag = false
-            state.cartList.some(item => {
-                if(item.iid == payload.iid){
-                    item.count += 1
-                    flag = true
-                    return true
-                }
-            })
-            if(!flag){
-                payload.count = 1
-                state.cartList.push(payload)
-            }
-        }
-    }
+    state, 
+    mutations,
+    actions,
+    getters
 })
 
 export default store

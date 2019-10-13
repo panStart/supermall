@@ -251,7 +251,8 @@ export default {
       product.price = 56
       product.iid = this.flag//必须的独立标识
       console.log('123')
-      this.$store.commit('addCart', product)
+      // this.$store.commit('addCart', product)
+      this.$store.dispatch('addCart', product)
     }
   }    
     
