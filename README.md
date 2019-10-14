@@ -178,5 +178,33 @@ if(this.currentIndex !== i &&
  if(this.currentIndex !== i && 
         (positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1]) 
         )
-# 14.3 详情页的backTop
+### 十五 顶部工具栏的封装
+
+
+### 十六 详情页的backTop
 * 组件的点击事件要添加@click.native
+*home.vue和detail.vue回到顶部
+
+### 十七 点击加入购物车
+##### 17.1 监听加入购物车的点击，获取商品信息
+* 监听
+* 获取商品信息
+
+##### 17.2将商品添加到vuex
+*安装vuex
+*配置
+*定义mutations,将商品添加到state.carList
+*重构代码：1.将mutations中的代码抽取到actions（定义两个mutations）2.将mutations/actions单独抽取到文件中
+
+### 十八购物车的展示
+###### 18.1购物车的导航栏展示
+###### 18.2购物车商品显示
+*  CartList -> Scroll(滚动问题)
+* CartListItem -> CheckButton
+##### 18.3商品的选中和不选中
+* 修改模型对象，改变选中状态
+
+#### 18.4 底部工具栏的汇总
+* 全选按钮
+* 计算总价格
+* 去计算

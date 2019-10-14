@@ -11,7 +11,7 @@
                 <div class="item-title">{{ product.title}}</div>
                 <div class="item-desc">商品描述: 真的好</div>
                 <div class="info-bottom">
-                    <div class="item-price left">¥100</div>
+                    <div class="item-price left">¥{{product.price}}</div>
                     <div class="item-count right">x{{product.count}}</div>
                 </div>
             </div>

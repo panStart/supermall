@@ -114,7 +114,7 @@ export default {
 
 <style scoped>
 .cart_list{
-     height: calc(100% - 44px - 49px);
+     height: calc(100% - 44px - 49px - 49px);
 }
 .content{
     height: 100%;

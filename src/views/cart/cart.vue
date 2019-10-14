@@ -5,11 +5,13 @@
       </nav-bar>
       <!-- 商品列表 -->
       <cart-list></cart-list>
+      <cart-bottom-bar></cart-bottom-bar>
   </div>
 </template>
 <script>
 import NavBar from 'components/common/navbar/NavBar'
 import CartList from './childComps/CartList'
+import CartBottomBar from './childComps/CartBottomBar'
 //vuex里的getters转化成计算属性
 import { mapGetters } from 'vuex'
 export default {
@@ -20,7 +22,8 @@ export default {
   },
   components: {
     NavBar,
-    CartList
+    CartList,
+    CartBottomBar
   },
   computed: {
     //1.计算属性

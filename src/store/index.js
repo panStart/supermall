@@ -6,9 +6,10 @@ import actions from './actions'
 import getters from './getters'
 Vue.use(Vuex)
 
+var cartList = JSON.parse(localStorage.getItem('cartList')||'[]')
 const state = {
     //用一个变量存储
-    cartList: []
+    cartList: cartList
 }
 const store = new Vuex.Store({
     state, 

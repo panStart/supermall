@@ -15,6 +15,8 @@ addCart(context, payload) {
             return true
         }
     })
+    console.log(context.state.cartList);
+    
     if(!flag){
         payload.count = 1
         // context.

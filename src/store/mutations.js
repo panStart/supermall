@@ -23,9 +23,12 @@ export default {
     // }
     [ADD_COUNTER](state, payload){
         payload.count++
+        // localStorage.setItem('cartList',JSON.stringify(payload))
     },
     [ADD_TO_CART](state, payload){
         payload.checked = true
+        
         state.cartList.push(payload)
+        // localStorage.setItem('cartList',JSON.stringify(payload))
     }
 }
