@@ -1,28 +1,63 @@
 <template>
   <div class="bottom-bar">
       <div class="check-content">
-          <check-button class="check-btn"></check-button>
+          <check-button 
+          @click.native="checkClick"
+          :is-checked = "isSelectAll" class="check-btn"></check-button>
           <span>全选</span>
       </div>
-      <div>总计：{{totalPrice}}</div>
+      <div class="price">总计：{{totalPrice}}</div>
+      <div class="calculate">
+          去计算({{checkLength}})
+      </div>
   </div>
 </template>
 
 <script>
 import CheckButton from 'components/content/checkButton/CheckButton'
+import { mapGetters } from 'vuex'
 export default {
     components:{
         CheckButton
     },
     computed: {
+        ...mapGetters(['cartList']),
         totalPrice(){
-            return "￥" + this.$store.state.cartList.filter(item => {
+            return "￥" + this.cartList.filter(item => {
                 return item.checked
             }).reduce((preValue,item) => {
                 return preValue + item.price * item.count
             },0)
+        },
+        checkLength() {
+            return this.cartList.filter(item => item.checked).length
+        },
+        isSelectAll() {
+            if (this.cartList.length == 0) return false
+            // return !(this.cartList.filter(item => !item.checked).length)
+            // return !this.cartList.find(item => !item.checked)
+            for (let item of this.cartList) {
+                if(!item.checked){
+                    return false
+                }
+            }
+            return true
+        }
+    },
+    methods: {
+        checkClick() {
+            if (this.isSelectAll) {
+                this.cartList.forEach(item => item.checked = false);
+            } else {
+                this.cartList.forEach(item => item.checked = true)
+            }
+            
+            //简化错误方式：会相互影响isSelectAll/checked
+            // this.cartList.forEach(item => item.checked =!this.isSelectAll);
+
         }
     }
+    
 }
 </script>
 
@@ -45,12 +80,23 @@ export default {
         display: flex;
         align-items:center;
         margin-left: 10px;
-        font-size: 18px
+        font-size: 18px;
+        width: 70px
+    }
+    .price {
+        margin-left: 20px;
+        flex:1
     }
     .check-btn{
         width: 22px;
         height: 22px;
         line-height: 22px;
         margin-right: 5px;
+    }
+    .calculate{
+        width: 90px;
+        background-color: red;
+        color: #fff;
+        text-align: center
     }
 </style>

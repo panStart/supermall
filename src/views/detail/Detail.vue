@@ -99,7 +99,7 @@
         
     </scroll>
      <back-top @click.native="backTop" v-show="isShowBackTop"></back-top>
-    <detail-bottom-bar @addToCart="addCart"/>
+    <detail-bottom-bar @addToCart="addToCart"/>
   </div>
 </template>
 <script>
@@ -122,7 +122,8 @@ import GoodsList from 'components/content/goods/GoodsList'
 
 import {getDetail,getDetailGoods,Goods} from 'network/detail'
 import {itemListenerMixin,backTopMIxin} from "common/mixin"
-import { log } from 'util'
+// import { log } from 'util'
+import { mapActions } from 'vuex'
 export default {
   name:'Detail',
   mixins:[itemListenerMixin,backTopMIxin],
@@ -183,6 +184,7 @@ export default {
     Scroll,
   },
   methods: {
+    ...mapActions(['addCart']),
     getDetailSwiperdata(){
       getDetail().then(res => {
         // console.log(res);
@@ -244,7 +246,7 @@ export default {
       //scroll运动的值为负值
       this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 100) 
     },
-    addCart(){
+    addToCart(){
       const product = {}
       product.image = this.detailList[0].img_src
       product.title = this.goods.title
@@ -252,7 +254,13 @@ export default {
       product.iid = this.flag//必须的独立标识
       console.log('123')
       // this.$store.commit('addCart', product)
-      this.$store.dispatch('addCart', product)
+      // this.$store.dispatch('addCart', product).then(res => {
+      //     console.log(res)
+      // })
+      this.addCart(product).then(res => {
+          console.log(res);
+          
+      })
     }
   }    
     

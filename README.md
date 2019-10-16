@@ -208,3 +208,8 @@ if(this.currentIndex !== i &&
 * 全选按钮
 * 计算总价格
 * 去计算
+#### 18.5  mapGrtters应用：
+* import { mapGetters } from 'vuex'
+* ...mapGetters(['cartList']),
+* v-for="(item,index) in cartList 直接将getters里的计算属性变为组件的计算属性
+#### 十九 商品全部按钮选中
