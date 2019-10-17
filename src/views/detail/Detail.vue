@@ -99,7 +99,9 @@
         
     </scroll>
      <back-top @click.native="backTop" v-show="isShowBackTop"></back-top>
-    <detail-bottom-bar @addToCart="addToCart"/>
+     <detail-bottom-bar @addToCart="addToCart"/>
+     <!-- <toast :message="message" :show="show"></toast> -->
+     
   </div>
 </template>
 <script>
@@ -117,7 +119,7 @@ import DetailBottomBar from './childComps/DetailBottomBar'
 import Scroll from 'components/common/scroll/Scroll'
 //商品推荐
 import GoodsList from 'components/content/goods/GoodsList'
-
+// import Toast from 'components/common/toast/Toast'
 
 
 import {getDetail,getDetailGoods,Goods} from 'network/detail'
@@ -136,7 +138,8 @@ export default {
       recommends:[],
       themeTopYs:[],
       currentIndex:0,
-      
+      // message:'',
+      // show:false
     };
   },
   created () {
@@ -166,7 +169,7 @@ export default {
       this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
       this.themeTopYs.push(this.$refs.recommends.$el.offsetTop);
       this.themeTopYs.push(Number.MAX_VALUE);
-      console.log(this.themeTopYs);
+      // console.log(this.themeTopYs);
   },
   destroyed() {
       this.$bus.$off('itemImageLoad',this.itemImgListener)
@@ -182,6 +185,7 @@ export default {
     GoodsList,
     DetailBottomBar,
     Scroll,
+    // Toast
   },
   methods: {
     ...mapActions(['addCart']),
@@ -258,7 +262,15 @@ export default {
       //     console.log(res)
       // })
       this.addCart(product).then(res => {
-          console.log(res);
+          // this.show = true
+          // this.message = res
+          // setTimeout(() => {
+          //   this.show = false
+          //   this.message = ''
+          // },1500)
+          // console.log(this.$toast);
+          this.$toast.show(res,2000)
+          
           
       })
     }

@@ -213,3 +213,17 @@ if(this.currentIndex !== i &&
 * ...mapGetters(['cartList']),
 * v-for="(item,index) in cartList 直接将getters里的计算属性变为组件的计算属性
 #### 十九 商品全部按钮选中
+#### 二十.添加购物车弹窗
+* 20.1.Vuex的补充
+Actions可以返回一个Promise
+mapAction辅助函数
+
+* 20.2. Toast的封装
+ 普通封装方式
+ 插件封装方式
+
+##### 二十一. 补充细节
+* 21.1.fastClick减少点击延迟
+安装：npm i fastclick --save
+导入：import FastClick from 'fastclick'
+应用：FastClick.attach(document.body)

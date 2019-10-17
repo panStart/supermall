@@ -1,6 +1,7 @@
 <template>
   <div class="goods-item">
-      <img :src="'http://47.106.248.143/app/img/'+goodsItem.img_src" alt="" 
+      <!-- <img :src="'http://47.106.248.143/app/img/'+goodsItem.img_src" alt=""  -->
+      <img v-lazy="'http://47.106.248.143/app/img/'+goodsItem.img_src" alt=""
       @load="imageLoad"
       @click="itemClick"
       >
