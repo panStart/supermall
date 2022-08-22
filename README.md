@@ -38,7 +38,7 @@ configureWebpack:{
                'common':'@/common',
                'components':'@/components',
                'network':'@/network',
-               'views':'@/views' 
+               'views':'@/views'
            }
         }
     }别名配置
@@ -169,14 +169,14 @@ home页和详情页的使用的item图片刷新是同一个，离开home页面�
    * 4.$nextTick不行，图片的高度问题
    * 5.在图片加载完后，获取高度
 # 14.2 内容渲染，显示正确的标题
-if(this.currentIndex !== i && 
-((i < length - 1 && positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1]) 
-|| (i === length - 1 && positionY >= this.themeTopYs[i])))   
+if(this.currentIndex !== i &&
+((i < length - 1 && positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1])
+|| (i === length - 1 && positionY >= this.themeTopYs[i])))
 * 条件一：防止赋值重复
 * 条件二：区间判断
-* 简化：添加一个最大值 
- if(this.currentIndex !== i && 
-        (positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1]) 
+* 简化：添加一个最大值
+ if(this.currentIndex !== i &&
+        (positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1])
         )
 ### 十五 顶部工具栏的封装
 
@@ -227,3 +227,5 @@ mapAction辅助函数
 安装：npm i fastclick --save
 导入：import FastClick from 'fastclick'
 应用：FastClick.attach(document.body)
+
+#### Test
